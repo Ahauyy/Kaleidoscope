@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Large Neural Model Binaries (Download via scripts/download_models.py)
+models/*
+!models/.gitkeep
+
+# Browser Automation & Profile Data
+flow_edge_user_data/
+flow_browser_profile/
+.playwright/
+ms-playwright/
+
+# Batch Outputs & Archives
+outputs/*
+!outputs/.gitkeep
+archive/
+logs/
+*.log
+
+# Personal Media, Datasets & Slides (Strict Privacy Protection)
+Foto/
+inputs/*
+!inputs/.gitkeep
+templates/*
+!templates/.gitkeep
+samples/*
+!samples/.gitkeep
+
+# Sensitive Student Catalogs & Scratch Dumps
+*.json
+!data/*.example.json
+!configs/*.example.json
+data/raw/
+*.json.bak
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables & secrets
+.env
+.env.*
+!*.example

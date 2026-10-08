@@ -1,0 +1,19 @@
+# Kaleidoscope Batch Selfie Engine Dependencies
+# Python 3.10+ / Windows & Linux compatible
+
+# Core Image & Array Processing
+numpy<2.0.0
+opencv-python>=4.8.0
+pillow>=10.0.0
+scipy>=1.11.0
+
+# HTTP & Progress Utilities
+requests>=2.31.0
+tqdm>=4.66.0
+
+# Browser Automation Engine (Google Flow Nano Banana 2.1)
+playwright>=1.40.0
+
+# Offline Biometric & Face Pipeline (Optional / GPU Acceleration)
+onnxruntime>=1.16.0
+insightface>=0.7.3

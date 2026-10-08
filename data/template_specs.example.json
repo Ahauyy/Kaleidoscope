@@ -1,0 +1,28 @@
+{
+  "template_male_01.jpg": {
+    "index": 1,
+    "gender": "Male",
+    "has_glasses": false,
+    "anchor_pos": "left",
+    "companion_pos": "right",
+    "companion_bbox": [550, 320, 950, 800]
+  },
+  "template_female_01.jpg": {
+    "index": 2,
+    "gender": "Female",
+    "is_hijab": false,
+    "has_glasses": true,
+    "anchor_pos": "left",
+    "companion_pos": "right",
+    "companion_bbox": [580, 310, 960, 820]
+  },
+  "template_female_02.jpg": {
+    "index": 3,
+    "gender": "Female",
+    "is_hijab": true,
+    "has_glasses": false,
+    "anchor_pos": "right",
+    "companion_pos": "left",
+    "companion_bbox": [120, 290, 520, 780]
+  }
+}
