@@ -24,6 +24,8 @@ jobs:
 
     - name: Syntax and Compile Validation
       run: |
+        python -m py_compile flow_runner.py
         python -m py_compile run_batch.py
+        python -c "import py_compile, glob; [py_compile.compile(f, doraise=True) for f in glob.glob('flow_studio/**/*.py', recursive=True)]"
         python -c "import py_compile, glob; [py_compile.compile(f, doraise=True) for f in glob.glob('pipeline/**/*.py', recursive=True)]"
         python -c "import py_compile, glob; [py_compile.compile(f, doraise=True) for f in glob.glob('scripts/**/*.py', recursive=True)]"

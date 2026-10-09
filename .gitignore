@@ -16,17 +16,20 @@ models/*
 # Browser Automation & Profile Data
 flow_edge_user_data/
 flow_browser_profile/
+FlowStudio_*Profile/
 .playwright/
 ms-playwright/
 
-# Batch Outputs & Archives
+# Batch Outputs & Runtime Logs
 outputs/*
 !outputs/.gitkeep
 archive/
 logs/
+jobs/
 *.log
+*_ledger.json
 
-# Personal Media, Datasets & Slides (Strict Privacy Protection)
+# Personal Media & Inputs (Strict Privacy Protection)
 Foto/
 inputs/*
 !inputs/.gitkeep
@@ -35,10 +38,12 @@ templates/*
 samples/*
 !samples/.gitkeep
 
-# Sensitive Student Catalogs & Scratch Dumps
+# JSON Policies: Ignore root/scratch dumps, allow formal configs
 *.json
-!data/*.example.json
+!configs/*.json
+!configs/**/*.json
 !configs/*.example.json
+!data/*.example.json
 data/raw/
 *.json.bak
 

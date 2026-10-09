@@ -1,0 +1,27 @@
+{
+  "version": "2.0",
+  "mode": "single_image",
+  "browser": {
+    "cdp_port": 9222,
+    "target_url": "https://flow.google.com",
+    "timeout_seconds": 45,
+    "headless": false
+  },
+  "inputs": {
+    "inputs_dir": "inputs/portraits",
+    "file_extensions": [".jpg", ".jpeg", ".png", ".webp"]
+  },
+  "prompt": {
+    "template": "Transform this portrait into {{aesthetic}} aesthetic. Preserve the original facial identity, bone structure, and expression while adapting the clothing, background, and lighting to match {{lighting_style}}. 35mm film photography grain, cinematic depth of field.",
+    "variables": {
+      "aesthetic": "a 1990s retro vintage film",
+      "lighting_style": "warm golden hour indoor window light"
+    }
+  },
+  "output": {
+    "directory": "outputs/restyle_results",
+    "prefix": "restyle_",
+    "format": "png",
+    "overwrite": false
+  }
+}

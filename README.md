@@ -1,10 +1,10 @@
-# Kaleidoscope 📸
+# Kaleidoscope Flow Studio 🎨
 
-> **Identity-Preserving Dual-Selfie Synthesis & Face-Swapping Pipeline**  
-> *Engineered for high-fidelity candid portrait composition with authentic camera optics and zero "wax-look" generative artifacts.*
+> **Universal Generative Batch Automation & Multi-Modal Workflow Studio for Google Flow**  
+> *Automate, batch, and synthesize high-fidelity diffusion workflows with dynamic editable prompts, flexible multi-image slotting, and intelligent browser session management.*
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![InsightFace](https://img.shields.io/badge/face%20engine-InsightFace%20%7C%20ONNX-orange.svg)](https://github.com/deepinsight/insightface)
+[![Playwright CDP](https://img.shields.io/badge/browser%20engine-Playwright%20CDP-green.svg)](https://playwright.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -13,44 +13,45 @@
 
 ## 🌟 Overview
 
-**Kaleidoscope** is an automated computer vision and deep learning pipeline designed to synthesize photorealistic dual-subject ("companion") selfies. Given a set of base dual-selfie templates and arbitrary source portraits, Kaleidoscope locks the biometric identity of the **anchor subject** while seamlessly transferring the identity of the **companion subject**—retaining natural camera characteristics, authentic lens softness, and indoor ambient lighting.
+**Kaleidoscope Flow Studio** is an open-source, configuration-driven batch synthesis engine built for **Google Flow** and modern generative canvas web interfaces. It bridges programmatic batch processing with cloud diffusion models via Playwright's Chrome DevTools Protocol (CDP), providing:
+
+- ✍️ **Editable Dynamic Prompts**: Token variable interpolation (`{{subject}}`, `{{style}}`, `{{lighting}}`) and Cartesian combinatorial prompt matrices.
+- 🖼️ **Multi-Mode Image Slotting**: Flexible dual-image identity blending, single-image restyling, and pure text-to-image matrix execution.
+- 🚀 **1-Click CDP Attachment**: Seamless connection to existing Microsoft Edge or Google Chrome sessions on port `9222` with zero credential re-entry.
+- 📋 **Native Clipboard Injection**: Pastes images as native clipboard blobs directly into canvas nodes, eliminating drag-and-drop glitches and duplicate cards.
+- 🔄 **Fault-Tolerant Resumable Ledger**: Persistent task tracking (`jobs_ledger.json`) with automatic skips for finished items, error backoff, and retry queues.
+- ⚡ **Offline Hybrid Module**: Optional local ONNX neural face-swap engine (InsightFace + CodeFormer) for instant local processing.
 
 ```mermaid
 graph TD
-    A[Source Portrait Image] --> B[FaceLockDetector / ArcFace 512-D]
-    T[Dual-Selfie Template] --> B
-    B -->|Identity Lock Verification| C{Anchor Match >= Threshold?}
-    C -->|Yes: Anchor Protected| D[FaceSwapper ONNX Inswapper-128]
-    C -->|No: Swap Aborted| E[Error Handler & Log]
-    D --> F[Anti-AI Post-Processor]
-    F -->|Reinhard Color Transfer| G[Skin Tone Harmonization]
-    F -->|Gaussian Noise Injection| H[CMOS Sensor Grain Synthesis]
-    F -->|Soft Bloom & Lens Blur| I[Optical Depth Matching]
-    G & H & I --> J[Final JPEG Compression Engine]
-    J --> K[Outputs / High-Fidelity Candid Selfie]
+    Config[Config: YAML / JSON / CLI] --> Studio[Kaleidoscope Flow Studio]
+    Inputs[Inputs: Single / Dual / Matrix] --> Studio
+    
+    subgraph Operational Modes
+        Studio --> M1[Mode 1: Dual-Image Identity Blend]
+        Studio --> M2[Mode 2: Single-Image Restyle / Img2Img]
+        Studio --> M3[Mode 3: Text-to-Image Prompt Matrix]
+        Studio --> M4[Mode 4: Offline Biometric Fallback]
+    end
+    
+    M1 & M2 & M3 --> CDP[Playwright CDP Controller]
+    CDP --> Browser[Edge / Chrome @ Port 9222]
+    Browser --> Canvas[Google Flow Canvas & ProseMirror]
+    Canvas --> Extract[Full-Resolution Output Extractor]
+    Extract --> Ledger[(Job Ledger: progress.json)]
+    Extract --> Storage[Outputs / High-Fidelity Results]
 ```
 
 ---
 
-## ✨ Key Features
+## 🎯 Operational Modes
 
-- 🔒 **Biometric Anchor Identity Lock**:
-  - Uses InsightFace `buffalo_l` (ArcFace 512-dimensional normalized embeddings) to reliably identify and protect the primary selfie-taker across varying angles, poses, and lighting conditions.
-  - Guarantees the anchor subject is **never** inadvertently swapped or distorted.
-
-- 🎭 **Neural Face Swapping Engine**:
-  - Powered by `inswapper_128.onnx` with 5-point facial landmark alignment.
-  - Preserves head pose, facial orientation, and companion accessories (such as eyeglasses, head coverings/hijab, and neck straps).
-
-- 📱 **Anti-AI Optical Harmonization**:
-  - Eliminates the artificial "airbrushed / hyper-smoothed wax look" typical of standard generative diffusion outputs.
-  - **Reinhard Color Transfer**: Harmonizes the transferred face's chromatic distribution ($L*a*b*$ space) with the scene's ambient lighting.
-  - **Sensor Noise Synthesis**: Injects subtle pseudo-random CMOS sensor grain matching smartphone camera captures.
-  - **Dynamic Lens Blur**: Softens edge seams using Poisson and Gaussian feathering.
-
-- ⚡ **Batch CLI Runner & Diagnostics**:
-  - Streamlined batch command-line interface with `tqdm` progress tracking, automatic fallback handling, and failure logging.
-  - Built-in disk and runtime cache auditing tools (`scripts/check_disk_usage.py`).
+| Mode | Input Slots | Use Case | Example |
+| :--- | :---: | :--- | :--- |
+| **`dual_image`** | Image 1 (Template) + Image 2 (Subject) | Swapping companion identity, yearbook selfies, dual-subject composition | Retain person on left; replace companion on right with Image 2 |
+| **`single_image`** | Single Image | Image-to-image restyling, wardrobe transfer, art style transformation | Transform portrait into 1990s retro 35mm film aesthetic |
+| **`text_only`** | None (Prompts only) | Batch prompt matrix evaluation, concept art generation, style testing | Generate $N \times M$ matrix across styles and subjects |
+| **`offline_hybrid`** | Reference + Target (Local) | Offline instant face-swap without internet or browser | Local InsightFace ArcFace 512-D + ONNX swap |
 
 ---
 
@@ -58,35 +59,48 @@ graph TD
 
 ```text
 Kaleidoscope/
-├── .github/workflows/          # GitHub Actions CI workflow
-├── data/                       # Configuration schemas & sample specs
-│   └── template_specs.example.json
-├── inputs/                     # Target directory for source companion portraits
-├── models/                     # Neural network weights (inswapper_128.onnx, buffalo_l)
-├── outputs/                    # Output directory for generated selfies
-├── pipeline/                   # Core neural vision modules
-│   ├── __init__.py             # Package exports
-│   ├── detector.py             # Biometric Anchor & Face Lock Detector
-│   ├── swapper.py              # Inswapper ONNX inference engine
-│   ├── restorer.py             # Facial detail fidelity enhancer
-│   ├── postprocess.py          # Color transfer, grain injection & bloom
-│   └── utils.py                # Image I/O, cosine math & logging
-├── scripts/                    # Utility and setup scripts
+├── configs/
+│   ├── default.yaml            # Global default configuration
+│   └── presets/
+│       ├── dual_image_blend.yaml    # Dual-image identity transfer preset
+│       ├── dual_image_blend.json    # JSON equivalent
+│       ├── single_image_restyle.yaml# Single-image restyle preset
+│       ├── single_image_restyle.json# JSON equivalent
+│       └── prompt_matrix.json       # Combinatorial prompt matrix preset
+├── flow_studio/                # Core Python package
+│   ├── __init__.py             # Exports & versioning
+│   ├── browser.py              # Playwright CDP lifecycle & browser manager
+│   ├── canvas.py               # ProseMirror typing, clipboard paste, dismissals
+│   ├── downloader.py           # Output card detection & high-res image saver
+│   ├── prompts.py              # Dynamic template engine & variable interpolation
+│   ├── ledger.py               # Resumable state ledger & progress tracking
+│   ├── config.py               # YAML & JSON configuration parser
+│   └── cli.py                  # Command-line interface dispatcher
+├── flow_runner.py              # Top-level CLI entry point
+├── pipeline/                   # Optional offline neural face-swap engine
+│   ├── detector.py             # Biometric anchor & landmark detection
+│   ├── swapper.py              # InsightFace ONNX swapper
+│   ├── restorer.py             # CodeFormer fidelity enhancer
+│   ├── postprocess.py          # Reinhard color transfer & sensor noise
+│   └── utils.py                # Image I/O & math utilities
+├── scripts/
+│   ├── launch_debug_edge.bat   # 1-Click Edge remote debugging launcher
+│   ├── launch_debug_chrome.bat # 1-Click Chrome remote debugging launcher
 │   ├── check_disk_usage.py     # System cache & storage analyzer
-│   ├── create_reference_anchor.py # Crop reference anchor identity
-│   └── download_models.py      # Automated neural weights downloader
-├── templates/                  # Base dual-selfie templates & anchor reference
-├── .gitignore                  # Production exclusion rules
-├── LICENSE                     # MIT License
+│   └── download_models.py      # Offline model weight downloader
+├── inputs/                     # Source input directory (git-ignored)
+├── outputs/                    # Output directory for results (git-ignored)
+├── .github/workflows/ci.yml    # CI syntax and compilation validation
 ├── requirements.txt            # Dependency specification
-└── run_batch.py                # Production batch CLI runner
+├── LICENSE                     # MIT License
+└── README.md                   # Project documentation
 ```
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Clone & Set Up Environment
+### 1. Installation
 
 ```bash
 # Clone the repository
@@ -95,75 +109,119 @@ cd Kaleidoscope
 
 # Create and activate a virtual environment
 python -m venv .venv
-
 # Windows:
 .venv\Scripts\activate
-
-# Linux / macOS:
+# Linux/macOS:
 source .venv/bin/activate
 
-# Install required dependencies
+# Install dependencies
 pip install -r requirements.txt
+playwright install chromium
 ```
 
-### 2. Download Model Weights
+### 2. Launch Browser with Remote Debugging (1-Click)
 
-Download the pre-trained neural network weights (`inswapper_128.onnx` and InsightFace `buffalo_l` pack) using the automated script:
+Run the provided batch script to launch your preferred browser on port `9222`:
 
-```bash
-python scripts/download_models.py
-```
+- **For Microsoft Edge**: Double-click `scripts\launch_debug_edge.bat`
+- **For Google Chrome**: Double-click `scripts\launch_debug_chrome.bat`
 
-### 3. Prepare Reference & Templates
-
-1. Place your base dual-selfie template photos in `templates/` (e.g., `base_male.jpeg`, `base_female.jpeg`).
-2. Generate or place your reference anchor photo:
-   ```bash
-   python scripts/create_reference_anchor.py --source templates/my_photo.jpg --output templates/ref_anchor.jpg --side left
-   ```
-3. Place source portrait photos into `inputs/`.
-
-### 4. Run Batch Synthesis
-
-```bash
-python run_batch.py --device cuda --quality 82
-```
-
-#### CLI Options:
-| Flag | Default | Description |
-| :--- | :---: | :--- |
-| `--inputs` | `inputs` | Directory containing source portraits |
-| `--outputs` | `outputs` | Directory to save generated photos |
-| `--templates` | `templates` | Directory containing base templates |
-| `--ref-anchor` | `templates/ref_anchor.jpg` | Biometric anchor portrait |
-| `--device` | `cuda` | Compute device (`cuda` or `cpu`) |
-| `--quality` | `82` | JPEG quality factor (78–85 recommended) |
+*Log in to your Google Flow account once. Your cookies and profile will remain safely saved in your local app data.*
 
 ---
 
-## 🔬 Mathematical & Architectural Details
+## ⚡ Usage & Execution
 
-### Biometric Identity Cosine Metric
-The face detector extracts normalized feature vectors $v \in \mathbb{R}^{512}$ via ArcFace:
+### A. Run Using Configuration Presets
 
-$$\text{Sim}(v_{\text{anchor}}, v_{\text{template}}) = \frac{v_{\text{anchor}} \cdot v_{\text{template}}}{\|v_{\text{anchor}}\| \|v_{\text{template}}\|}$$
+Inspect available presets:
+```bash
+python flow_runner.py list-presets
+```
 
-If $\text{Sim} \ge \tau$ (default $\tau = 0.45$), the face is classified as the immutable anchor and shielded from modification.
+Run a preset:
+```bash
+# Dual-Image Identity Blend
+python flow_runner.py run --config configs/presets/dual_image_blend.yaml
 
-### Reinhard Color Harmonization
-Skin tones are balanced across the $L\alpha\beta$ color space:
+# Single-Image Restyle
+python flow_runner.py run --config configs/presets/single_image_restyle.yaml
 
-$$L^*_{\text{new}} = \left(L^*_{\text{source}} - \mu^L_{\text{source}}\right) \left(\frac{\sigma^L_{\text{target}}}{\sigma^L_{\text{source}}}\right) + \mu^L_{\text{target}}$$
+# Prompt Matrix (Text-to-Image)
+python flow_runner.py run --config configs/presets/prompt_matrix.json
+```
 
-This preserves authentic facial features while matching the ambient color temperature of the template scene.
+### B. Run Quick Ad-Hoc CLI Commands
+
+**1. Dual-Image Swap:**
+```bash
+python flow_runner.py run \
+  --mode dual_image \
+  --template inputs/my_template.jpg \
+  --inputs-dir inputs/faces/ \
+  --prompt "Keep person on left unchanged. Replace person on right with Image 2. Natural candid lighting." \
+  --wait 50
+```
+
+**2. Single-Image Style Transfer:**
+```bash
+python flow_runner.py run \
+  --mode single_image \
+  --inputs-dir inputs/portraits/ \
+  --prompt "Convert into 1990s vintage film photograph, warm grain, golden hour light." \
+  --wait 40
+```
+
+**3. Check Progress & Resume:**
+```bash
+# Check ledger summary
+python flow_runner.py status --ledger outputs/dual_blend_results/jobs_ledger.json
+
+# Resume or retry failed tasks
+python flow_runner.py run --config configs/presets/dual_image_blend.yaml --retry-failed
+```
 
 ---
 
-## 🛡️ Privacy & Compliance
+## ⚙️ Configuration Reference (`YAML` / `JSON`)
 
-This repository contains **strictly clean, open-source code and public model references**.
-- **No personal user data, private portraits, or third-party datasets** are committed or tracked.
-- All runtime inputs (`inputs/`), templates (`templates/`), and results (`outputs/`) are excluded via `.gitignore`.
+```yaml
+version: "2.0"
+mode: "dual_image"   # dual_image | single_image | text_only
+
+browser:
+  cdp_port: 9222
+  target_url: "https://flow.google.com"
+  timeout_seconds: 55
+  headless: false
+
+inputs:
+  template_image: "inputs/template.jpg"
+  subjects_dir: "inputs/subjects"
+  file_extensions: [".jpg", ".jpeg", ".png", ".webp"]
+
+prompt:
+  template: >
+    In Image 1, keep the person on the left completely unchanged.
+    Modify ONLY the companion on the right: replace them with the person from Image 2.
+    Transfer facial features, hairstyle, and outfit.
+    Style: {{lighting}} lighting, candid smartphone quality.
+  variables:
+    lighting: "indoor warm auditorium"
+
+output:
+  directory: "outputs/flow_results"
+  prefix: "result_"
+  format: "png"
+  overwrite: false
+```
+
+---
+
+## 🛡️ Privacy & Security
+
+- **Zero Personal Data**: This repository contains strictly clean automation logic and generic example presets.
+- **Strict Git Exclusion**: All runtime assets (`inputs/`, `outputs/`, `jobs/`, browser profiles, and logs) are automatically ignored by `.gitignore`.
 
 ---
 

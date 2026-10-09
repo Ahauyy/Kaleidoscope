@@ -1,0 +1,32 @@
+version: "2.0"
+mode: "dual_image"
+
+browser:
+  cdp_port: 9222
+  target_url: "https://flow.google.com"
+  timeout_seconds: 55
+  headless: false
+
+inputs:
+  template_image: "inputs/template.jpg"
+  subjects_dir: "inputs/subjects"
+  file_extensions:
+    - ".jpg"
+    - ".jpeg"
+    - ".png"
+    - ".webp"
+
+prompt:
+  template: >
+    In Image 1, keep the main person on the left completely unchanged (face, expression, clothes, and pose).
+    Modify ONLY the companion on the right: replace them with the person from Image 2.
+    Transfer their exact facial features, hairstyle, skin tone, and outfit.
+    Match the lighting, soft lens focus, and natural sensor texture of Image 1.
+    High-fidelity candid smartphone photograph.
+  variables: {}
+
+output:
+  directory: "outputs/dual_blend_results"
+  prefix: "blend_"
+  format: "png"
+  overwrite: false

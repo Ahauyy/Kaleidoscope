@@ -1,0 +1,30 @@
+{
+  "version": "2.0",
+  "mode": "text_only",
+  "browser": {
+    "cdp_port": 9222,
+    "target_url": "https://flow.google.com",
+    "timeout_seconds": 40,
+    "headless": false
+  },
+  "prompt": {
+    "template": "A portrait of {{subject}} in {{art_style}} style, dramatic volumetric lighting, ultra-detailed textures, masterpiece composition.",
+    "matrix": {
+      "subject": [
+        "a cyberpunk hacker wearing neon visor glasses",
+        "an astronaut standing on an alien desert planet",
+        "a barista brewing coffee in a cozy rainy cafe"
+      ],
+      "art_style": [
+        "cinematic 8k photorealistic photography",
+        "Studio Ghibli anime watercolor illustration"
+      ]
+    }
+  },
+  "output": {
+    "directory": "outputs/matrix_results",
+    "prefix": "matrix_",
+    "format": "png",
+    "overwrite": false
+  }
+}
